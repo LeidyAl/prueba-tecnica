@@ -22,6 +22,10 @@ const theme = createTheme({
   components: {
     MuiTypography: { 
       styleOverrides: {
+        h2:{
+          fontWeight: 'bolder',
+          fontSize: 32,
+        },
         h5: {
           fontWeight: 'bolder',
           fontSize: 24,
