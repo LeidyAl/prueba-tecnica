@@ -49,10 +49,6 @@ const theme = createTheme({
         contained: {
           color: "#f3f8f8",
           fontWeight: "bolder",
-          background: "#2f3e46",
-          ":hover": {
-            background: "#1d292f",
-          },
         },
       },
     },
