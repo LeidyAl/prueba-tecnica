@@ -9,4 +9,13 @@ const getAllPost =()=>{
       });
 }
 
-export {getAllPost}
+const deletePost =({id})=>{
+	return  axios.delete(`https://jsonplaceholder.typicode.com/posts/${id}`).then((res) => {
+			return res;
+		})
+		.catch((error) => {
+			throw error;
+		});
+}
+
+export {getAllPost,deletePost}

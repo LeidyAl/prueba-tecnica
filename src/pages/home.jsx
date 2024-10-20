@@ -3,6 +3,7 @@ import { Box, Button, Typography } from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { getAllPost } from "../services/posts";
+import DeletePost from "../Components/DeletePost/delete-post";
 
 const Home = () => {
   const [rows, setRows] = useState([]);
@@ -31,13 +32,9 @@ const Home = () => {
       headerName: "Acciones",
       width: 200,
       renderCell: (params) => (
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={() => handleActionClick(params.row)}
-        >
-          Acción
-        </Button>
+        <Box>
+          <DeletePost idPost={params?.row?.id}/>
+        </Box>
       ),
     },
   ];
