@@ -29,4 +29,15 @@ const updatePost = ({id, title, body})=>{
 		});
 }
 
-export {getAllPost,deletePost, updatePost}
+const createPost = ({ title, body})=>{
+	return  axios.post(`https://jsonplaceholder.typicode.com/posts/`, 
+		{ title, body },
+	).then((res) => {
+			return res;
+		})
+		.catch((error) => {
+			throw error;
+		});
+}
+
+export {getAllPost,deletePost, updatePost,createPost}

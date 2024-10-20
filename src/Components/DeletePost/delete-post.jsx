@@ -30,12 +30,12 @@ const DeletePost = ({ idPost }) => {
   };
 
   return (
-    <Tooltip title="Eliminar post" placement="top">
+    <>
       <Dialog open={openDialog} onClose={handleClose} maxWidth="md">
         <DialogContent>
           {response === 200 ? (
             <Typography variant="h6" align="center">
-              <CheckCircleOutline color="success" fontSize="large" align />
+              <CheckCircleOutline color="success" fontSize="large" />
               <br />
               El post fue eliminado correctamente
             </Typography>
@@ -53,10 +53,12 @@ const DeletePost = ({ idPost }) => {
           </Button>
         </DialogActions>
       </Dialog>
-      <IconButton onClick={deleteThisPost}>
-        <Delete />
-      </IconButton>
-    </Tooltip>
+      <Tooltip title="Eliminar post" placement="top">
+        <IconButton onClick={deleteThisPost}>
+          <Delete />
+        </IconButton>
+      </Tooltip>
+    </>
   );
 };
 

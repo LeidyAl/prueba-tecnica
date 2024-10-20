@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { Box, Button, Tooltip, Typography } from "@mui/material";
+import { Box, Typography } from "@mui/material";
 
 import { DataGrid } from "@mui/x-data-grid";
 import { getAllPost } from "../services/posts";
 import DeletePost from "../Components/DeletePost/delete-post";
 import UpdatePost from "../Components/UpdatePost/update-post";
+import CreatePost from "../Components/CreatePost/create-post";
 
 const Home = () => {
   const [rows, setRows] = useState([]);
@@ -51,14 +52,17 @@ const Home = () => {
 
   return (
     <Box padding={2} bgcolor="primary.50">
-      <Typography color="primary.800" variant="h2">
-        Listado de post
-      </Typography>
+      <Box display="flex" justifyContent="space-between" mb={2}> 
+        <Typography color="primary.800" variant="h2">
+          Listado de post
+        </Typography>
+        <CreatePost />
+      </Box>
       <Box sx={{ width: "100%" }}>
         <DataGrid
           rows={rows}
           columns={columns}
-					rowSelection={false}
+          rowSelection={false}
           initialState={{
             pagination: {
               paginationModel: {

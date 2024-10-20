@@ -2,36 +2,35 @@ import { useState } from "react";
 
 import {
   Button,
+  CircularProgress,
   Dialog,
   DialogActions,
   DialogContent,
   Grid2,
-  IconButton,
   TextField,
   Typography,
-  CircularProgress,
-  Tooltip,
 } from "@mui/material";
-import { CheckCircleOutline, Edit, HighlightOff } from "@mui/icons-material";
+import { Add, CheckCircleOutline, HighlightOff } from "@mui/icons-material";
 
 import { useFormik } from "formik";
+import { createPost } from "../../services/posts";
 
-import { updatePost } from "../../services/posts";
-
-const UpdatePost = ({ idPost, title, body }) => {
+const CreatePost = () => {
   const [openDialog, setOpenDialog] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [openResponse, setOpenResponse] = useState(false);
   const [response, setResponse] = useState("");
-  const [loading, setLoading] = useState(false);
 
-  const handleClose = () => setOpenDialog(false);
   const handleOpen = () => setOpenDialog(true);
   const handleCloseResponse = () => setOpenResponse(false);
+  const handleClose = () => {
+    formik.resetForm();
+    setOpenDialog(false);
+  };
 
-  const updateThisPost = () => {
+  const newPost = () => {
     setLoading(true);
-    updatePost({
-      id: idPost,
+    createPost({
       title: formik.values.title,
       body: formik.values.body,
     })
@@ -40,23 +39,24 @@ const UpdatePost = ({ idPost, title, body }) => {
         setOpenResponse(true);
         setOpenDialog(false);
         setLoading(false);
+        formik.resetForm();
       })
       .catch((error) => {
         setResponse(error);
-        setOpenDialog(false);
         setOpenResponse(true);
+        setOpenDialog(false);
         setLoading(false);
       });
   };
 
   const formik = useFormik({
     initialValues: {
-      title: title ?? "",
-      body: body ?? "",
+      title: "",
+      body: "",
     },
-
+    enableReinitialize: true,
     onSubmit: (values) => {
-      updateThisPost();
+      newPost();
     },
   });
 
@@ -64,17 +64,17 @@ const UpdatePost = ({ idPost, title, body }) => {
     <>
       <Dialog open={openResponse} onClose={handleCloseResponse} maxWidth="md">
         <DialogContent>
-          {response === 200 ? (
+          {response === 201 ? (
             <Typography variant="h6" align="center">
               <CheckCircleOutline color="success" fontSize="large" />
               <br />
-              El post fue actualizado correctamente
+              El post fue creado correctamente
             </Typography>
           ) : (
             <Typography variant="h6" align="center">
               <HighlightOff color="error" />
               <br />
-              Ocurrio un error, el post no se pudo actualizar
+              Ocurrio un error, el post no se pudo crear
             </Typography>
           )}
         </DialogContent>
@@ -92,7 +92,7 @@ const UpdatePost = ({ idPost, title, body }) => {
         <form onSubmit={formik.handleSubmit}>
           <DialogContent>
             <Typography variant="h6" align="center">
-              Actualizar el post con el id {idPost}
+              Crear nuevo Post
             </Typography>
             <Grid2 container spacing={2} mt={2}>
               <Grid2 size={12}>
@@ -131,7 +131,7 @@ const UpdatePost = ({ idPost, title, body }) => {
               disabled={loading}
               endIcon={loading && <CircularProgress size={20} />}
             >
-              Actualizar
+              Crear
             </Button>
             <Button variant="contained" color="error" onClick={handleClose}>
               Cancelar
@@ -139,13 +139,11 @@ const UpdatePost = ({ idPost, title, body }) => {
           </DialogActions>
         </form>
       </Dialog>
-      <Tooltip title="Actualizar post" placement="top">
-        <IconButton onClick={handleOpen}>
-          <Edit />
-        </IconButton>
-      </Tooltip>
+      <Button variant="contained" startIcon={<Add />} onClick={handleOpen}>
+        Crear Post
+      </Button>
     </>
   );
 };
 
-export default UpdatePost;
+export default CreatePost;
